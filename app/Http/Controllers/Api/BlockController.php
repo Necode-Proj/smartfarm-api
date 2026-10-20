@@ -62,6 +62,26 @@ class BlockController extends Controller
         ]);
     }
 
+    public function update(Request $request, $id)
+    {
+        $block = Block::findOrFail($id);
+
+        $validated = $request->validate([
+            'moisture_threshold' => 'sometimes|numeric|min:10|max:90',
+            'auto_water_enabled' => 'sometimes|boolean',
+            'location'           => 'sometimes|string|max:100',
+            'area_m2'            => 'sometimes|numeric|min:1',
+            'description'        => 'sometimes|nullable|string|max:500',
+        ]);
+
+        $block->update($validated);
+
+        return response()->json([
+            'message' => 'Pengaturan blok berhasil diperbarui!',
+            'data'    => $this->formatBlock($block->fresh(['latestReading'])),
+        ]);
+    }
+
     // ─── Private Helpers ───────────────────────────────────────────────────────
 
     private function formatBlock(Block $block): array

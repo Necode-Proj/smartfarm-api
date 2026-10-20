@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Blocks
     Route::get('/blocks', [BlockController::class, 'index']);
     Route::get('/blocks/{id}', [BlockController::class, 'show']);
+    Route::put('/blocks/{id}', [BlockController::class, 'update']);
     Route::get('/blocks/{id}/readings', [BlockController::class, 'readings']);
 
     // Watering
